@@ -1,5 +1,5 @@
 function getData(url, cb) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
     // 4 means that it has been completed and we have data and the status of 200 means that it was ok, everything went well and we received data
 
@@ -15,7 +15,7 @@ function getData(url, cb) {
 }
 
 function getTableHeaders(obj) {
-    var tableHeaders = [];
+    let tableHeaders = [];
 
     Object.keys(obj).forEach(function(key) {
         tableHeaders.push(`<td>${key}</td>`);
@@ -39,29 +39,33 @@ function generatePaginationButtons(next, prev) {
 }
 
 function writeToDocument(url) {
-    var tableRows = [];
-    var el = document.getElementById("data");
+    let tableRows = [];
+    let element = document.getElementById("data");
 
     getData(url, function(data) {
-        var pagination = "";
-
+        console.log(data);
+        let pagination = "";
+        
+        //generates the html for the pagination 
         if (data.next || data.previous) {
             pagination = generatePaginationButtons(data.next, data.previous);
         }
-        data = data.results;
-        var tableHeaders = getTableHeaders(data[0]);
+        
+        //getting the table headers for the first element
+        let d = data.results;
+        let tableHeaders = getTableHeaders(d[0]);
 
-        data.forEach(function(item) {
-            var dataRow = [];
+        d.forEach(function(item) {
+           let dataRow = [];
 
             Object.keys(item).forEach(function(key) {
-                var rowData = item[key].toString();
-                var truncatedData = rowData.substring(0, 15);
+                let rowData = item[key].toString();
+                let truncatedData = rowData.substring(0, 15);
                 dataRow.push(`<td>${truncatedData}</td>`);
             });
             tableRows.push(`<tr>${dataRow}</tr>`);
         });
 
-        el.innerHTML = `<table>${tableHeaders}${tableRows}</table>${pagination}`.replace(/,/g, "");
+        element.innerHTML = `<table>${tableHeaders}${tableRows}</table>${pagination}`.replace(/,/g, "");
     });
 }
