@@ -1,7 +1,7 @@
-var xhr = new XMLHttpRequest();
+let xhr = new XMLHttpRequest();
 
 console.log(xhr.readyState);
-var data;
+let data;
 
 xhr.open("GET", "https://swapi.co/api/");
 console.log(xhr.readyState);
